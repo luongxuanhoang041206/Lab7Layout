@@ -19,7 +19,7 @@ public class LXHCategoryController(Lab7LayoutContext database) : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Status")] Category category)
+    public async Task<IActionResult> Create([Bind("Name,Status,Image,Description")] Category category)
     {
         if (await database.Categories.AnyAsync(existing => existing.Name == category.Name))
         {
@@ -59,7 +59,7 @@ public class LXHCategoryController(Lab7LayoutContext database) : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status")] Category input)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status,Image,Description")] Category input)
     {
         if (id != input.Id)
         {
@@ -85,6 +85,8 @@ public class LXHCategoryController(Lab7LayoutContext database) : Controller
 
         category.Name = input.Name;
         category.Status = input.Status;
+        category.Image = input.Image;
+        category.Description = input.Description;
         try
         {
             await database.SaveChangesAsync();

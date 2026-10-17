@@ -1,53 +1,80 @@
 @model IEnumerable<Product>
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Sản phẩm";
 }
 
-<div class="card">
-    <div class="card-header d-flex align-items-center justify-content-between">
-        <h2 class="card-title">Product list</h2>
-        <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Add product</a>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6"><h1 class="m-0">Sản phẩm</h1></div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="LXHDashboard" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Sản phẩm</li>
+                </ol>
+            </div>
+        </div>
     </div>
-    <div class="card-body table-responsive p-0">
-        <table class="table table-hover mb-0">
-            <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Created</th><th class="text-right">Actions</th></tr></thead>
-            <tbody>
-                @foreach (var product in Model)
-                {
-                    <tr>
-                        <td>
-                            @if (!string.IsNullOrWhiteSpace(product.Image))
-                            {
-                                <img class="admin-thumbnail mr-2" src="@product.Image" alt="" />
-                            }
-                            @product.Name
-                        </td>
-                        <td>@product.Category?.Name</td>
-                        <td>
-                            @if (product.SalePrice > 0 && product.SalePrice < product.Price)
-                            {
-                                <strong>@product.SalePrice.ToString("C")</strong> <del class="text-muted">@product.Price.ToString("C")</del>
-                            }
-                            else
-                            {
-                                @product.Price.ToString("C")
-                            }
-                        </td>
-                        <td><span class="badge badge-@(product.Status == 1 ? "success" : "secondary")">@(product.Status == 1 ? "Active" : "Hidden")</span></td>
-                        <td>@product.CreatedDate.ToLocalTime().ToString("d")</td>
-                        <td class="text-right">
-                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@product.Id"><i class="fas fa-pen"></i> Edit</a>
-                            <form asp-action="Delete" asp-route-id="@product.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this product?');">
-                                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-                @if (!Model.Any())
-                {
-                    <tr><td colspan="6" class="text-center text-muted p-4">No products yet.</td></tr>
-                }
-            </tbody>
-        </table>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h3 class="card-title">Danh sách sản phẩm</h3>
+                <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Thêm sản phẩm</a>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th class="text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(product.Image))
+                                    {
+                                        <img class="admin-thumbnail mr-2" src="@product.Image" alt="" />
+                                    }
+                                    @product.Name
+                                </td>
+                                <td>@product.Category?.Name</td>
+                                <td>
+                                    @if (product.SalePrice > 0 && product.SalePrice < product.Price)
+                                    {
+                                        <strong>@product.SalePrice.ToString("C")</strong> <del class="text-muted">@product.Price.ToString("C")</del>
+                                    }
+                                    else
+                                    {
+                                        @product.Price.ToString("C")
+                                    }
+                                </td>
+                                <td><span class="badge badge-@(product.Status == 1 ? "success" : "secondary")">@(product.Status == 1 ? "Hiển thị" : "Ẩn")</span></td>
+                                <td>@product.CreatedDate.ToLocalTime().ToString("d")</td>
+                                <td class="text-right">
+                                    <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@product.Id"><i class="fas fa-pen"></i> Sửa</a>
+                                    <form asp-action="Delete" asp-route-id="@product.Id" method="post" class="d-inline" onsubmit="return confirm('Xóa sản phẩm này?');">
+                                        <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Xóa</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Any())
+                        {
+                            <tr><td colspan="6" class="text-center text-muted p-4">Chưa có sản phẩm nào.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,43 +1,69 @@
 @model IEnumerable<Blog>
 @{
-    ViewData["Title"] = "Journal";
+    ViewData["Title"] = "BLogs";
 }
 
-<div class="card">
-    <div class="card-header d-flex align-items-center justify-content-between">
-        <h2 class="card-title">Journal posts</h2>
-        <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Add post</a>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6"><h1 class="m-0">BLogs</h1></div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="LXHDashboard" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active">BLogs</li>
+                </ol>
+            </div>
+        </div>
     </div>
-    <div class="card-body table-responsive p-0">
-        <table class="table table-hover mb-0">
-            <thead><tr><th>Title</th><th>Status</th><th>Created</th><th>Description</th><th class="text-right">Actions</th></tr></thead>
-            <tbody>
-                @foreach (var blog in Model)
-                {
-                    <tr>
-                        <td>
-                            @if (!string.IsNullOrWhiteSpace(blog.Image))
-                            {
-                                <img class="admin-thumbnail mr-2" src="@blog.Image" alt="" />
-                            }
-                            @blog.Name
-                        </td>
-                        <td><span class="badge badge-@(blog.Status == 1 ? "success" : "secondary")">@(blog.Status == 1 ? "Active" : "Hidden")</span></td>
-                        <td>@blog.CreatedDate.ToLocalTime().ToString("d")</td>
-                        <td>@blog.Description</td>
-                        <td class="text-right">
-                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@blog.Id"><i class="fas fa-pen"></i> Edit</a>
-                            <form asp-action="Delete" asp-route-id="@blog.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this post?');">
-                                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-                @if (!Model.Any())
-                {
-                    <tr><td colspan="5" class="text-center text-muted p-4">No journal posts yet.</td></tr>
-                }
-            </tbody>
-        </table>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h3 class="card-title">Danh sách bài viết</h3>
+                <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Thêm bài viết</a>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th>Mô tả</th>
+                            <th class="text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var blog in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(blog.Image))
+                                    {
+                                        <img class="admin-thumbnail mr-2" src="@blog.Image" alt="" />
+                                    }
+                                    @blog.Name
+                                </td>
+                                <td><span class="badge badge-@(blog.Status == 1 ? "success" : "secondary")">@(blog.Status == 1 ? "Hiển thị" : "Ẩn")</span></td>
+                                <td>@blog.CreatedDate.ToLocalTime().ToString("d")</td>
+                                <td>@blog.Description</td>
+                                <td class="text-right">
+                                    <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@blog.Id"><i class="fas fa-pen"></i> Sửa</a>
+                                    <form asp-action="Delete" asp-route-id="@blog.Id" method="post" class="d-inline" onsubmit="return confirm('Xóa bài viết này?');">
+                                        <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Xóa</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Any())
+                        {
+                            <tr><td colspan="5" class="text-center text-muted p-4">Chưa có bài viết nào.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -19,5 +19,13 @@ public class Category
     [Display(Name = "Created date")]
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
+    [StringLength(100)]
+    [Url]
+    [Display(Name = "Image URL")]
+    public string? Image { get; set; }
+
+    [StringLength(350)]
+    public string? Description { get; set; }
+
     public ICollection<Product> Products { get; set; } = new List<Product>();
 }
