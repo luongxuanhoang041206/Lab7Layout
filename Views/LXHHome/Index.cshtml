@@ -1,0 +1,117 @@
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Objects for everyday living";
+}
+
+<section class="hero-section">
+    <div class="container-xl">
+        <div class="hero-copy">
+            <p class="eyebrow">A little more considered</p>
+            <h1>Make room for<br /><em>the good things.</em></h1>
+            <p class="hero-description">Useful objects, warm textures and small details that make a house feel like yours.</p>
+            <a class="btn btn-dark rounded-pill px-4 py-3" href="#collection">Explore the collection <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+        <div class="hero-art" aria-label="Warm, collected home interior">
+            <div class="hero-sun"></div>
+            <div class="hero-vase hero-vase-one"></div>
+            <div class="hero-vase hero-vase-two"></div>
+            <div class="hero-plant"><span></span><span></span><span></span><span></span></div>
+            <div class="hero-shelf"></div>
+            <span class="hero-caption">Pieces with a purpose</span>
+        </div>
+        <div class="hero-scroll"><span></span> Scroll to discover</div>
+    </div>
+</section>
+
+<section class="category-strip" id="story">
+    <div class="container-xl d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <p class="eyebrow mb-1">The edit</p>
+            <h2 class="section-heading mb-0">Find your everyday.</h2>
+        </div>
+        <div class="category-list">
+            @if (Model.Categories.Count == 0)
+            {
+                <span class="category-pill">Thoughtful living</span>
+            }
+            else
+            {
+                @foreach (var category in Model.Categories)
+                {
+                    <span class="category-pill">@category.Name</span>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+<section class="collection-section" id="collection">
+    <div class="container-xl">
+        <div class="section-intro">
+            <div>
+                <p class="eyebrow">Picked for you</p>
+                <h2 class="section-heading">Made for the moments in between.</h2>
+            </div>
+            <span class="collection-count">@Model.FeaturedProducts.Count.ToString("00") pieces</span>
+        </div>
+
+        @if (Model.FeaturedProducts.Count == 0)
+        {
+            <div class="empty-collection">
+                <i class="fas fa-seedling"></i>
+                <p>Our collection is taking shape. Check back soon.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var product in Model.FeaturedProducts)
+                {
+                    <article class="col-12 col-sm-6 col-lg-4">
+                        <div class="product-card">
+                            <div class="product-image-wrap">
+                                @if (!string.IsNullOrWhiteSpace(product.Image))
+                                {
+                                    <img class="product-image" src="@product.Image" alt="@product.Name" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <div class="product-image-placeholder"><i class="fas fa-leaf"></i></div>
+                                }
+                                <span class="product-category">@(product.Category?.Name ?? "Collection")</span>
+                            </div>
+                            <div class="product-details">
+                                <div>
+                                    <h3>@product.Name</h3>
+                                    <p>@(product.Description ?? "Made with care for everyday living.")</p>
+                                </div>
+                                <div class="product-price">
+                                    @if (product.SalePrice > 0 && product.SalePrice < product.Price)
+                                    {
+                                        <span>$@product.SalePrice.ToString("0.00")</span>
+                                        <del>$@product.Price.ToString("0.00")</del>
+                                    }
+                                    else
+                                    {
+                                        <span>$@product.Price.ToString("0.00")</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<section class="journal-section" id="journal">
+    <div class="container-xl journal-card">
+        <div>
+            <p class="eyebrow">A slower kind of shopping</p>
+            <h2>Choose less.<br /><em>Love it longer.</em></h2>
+        </div>
+        <p>We believe the best things earn their place: considered materials, useful design and a little bit of joy in the ordinary.</p>
+        <a asp-area="Admin" asp-controller="LXHDashboard" asp-action="Index" aria-label="Manage the Bistup collection"><i class="fas fa-arrow-right"></i></a>
+    </div>
+</section>

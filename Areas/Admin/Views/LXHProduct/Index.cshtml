@@ -1,0 +1,53 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h2 class="card-title">Product list</h2>
+        <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Add product</a>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Created</th><th class="text-right">Actions</th></tr></thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(product.Image))
+                            {
+                                <img class="admin-thumbnail mr-2" src="@product.Image" alt="" />
+                            }
+                            @product.Name
+                        </td>
+                        <td>@product.Category?.Name</td>
+                        <td>
+                            @if (product.SalePrice > 0 && product.SalePrice < product.Price)
+                            {
+                                <strong>@product.SalePrice.ToString("C")</strong> <del class="text-muted">@product.Price.ToString("C")</del>
+                            }
+                            else
+                            {
+                                @product.Price.ToString("C")
+                            }
+                        </td>
+                        <td><span class="badge badge-@(product.Status == 1 ? "success" : "secondary")">@(product.Status == 1 ? "Active" : "Hidden")</span></td>
+                        <td>@product.CreatedDate.ToLocalTime().ToString("d")</td>
+                        <td class="text-right">
+                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@product.Id"><i class="fas fa-pen"></i> Edit</a>
+                            <form asp-action="Delete" asp-route-id="@product.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this product?');">
+                                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center text-muted p-4">No products yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

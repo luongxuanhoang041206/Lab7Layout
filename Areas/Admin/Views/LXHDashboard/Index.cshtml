@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info admin-stat-card">
+            <div class="inner"><h3>@ViewData["ProductCount"]</h3><p>Products</p></div>
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <a class="small-box-footer" asp-controller="LXHProduct" asp-action="Index">Manage products <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success admin-stat-card">
+            <div class="inner"><h3>@ViewData["CategoryCount"]</h3><p>Categories</p></div>
+            <div class="icon"><i class="fas fa-tags"></i></div>
+            <a class="small-box-footer" asp-controller="LXHCategory" asp-action="Index">Manage categories <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning admin-stat-card">
+            <div class="inner"><h3>@ViewData["BannerCount"]</h3><p>Banners</p></div>
+            <div class="icon"><i class="far fa-images"></i></div>
+            <a class="small-box-footer" asp-controller="LXHBanner" asp-action="Index">Manage banners <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger admin-stat-card">
+            <div class="inner"><h3>@ViewData["BlogCount"]</h3><p>Journal posts</p></div>
+            <div class="icon"><i class="fas fa-feather-alt"></i></div>
+            <a class="small-box-footer" asp-controller="LXHBlog" asp-action="Index">Manage journal <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header"><h2 class="card-title">Your workspace</h2></div>
+    <div class="card-body">
+        <p class="mb-0">Manage the store catalogue, banners and journal from the menu. Published products appear in the storefront.</p>
+    </div>
+</div>

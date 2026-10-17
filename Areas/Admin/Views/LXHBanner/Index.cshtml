@@ -1,0 +1,43 @@
+@model IEnumerable<Banner>
+@{
+    ViewData["Title"] = "Banners";
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h2 class="card-title">Banner list</h2>
+        <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Add banner</a>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Banner</th><th>Priority</th><th>Status</th><th>Description</th><th class="text-right">Actions</th></tr></thead>
+            <tbody>
+                @foreach (var banner in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(banner.Image))
+                            {
+                                <img class="admin-thumbnail mr-2" src="@banner.Image" alt="" />
+                            }
+                            @banner.Name
+                        </td>
+                        <td>@banner.Priority</td>
+                        <td><span class="badge badge-@(banner.Status == 1 ? "success" : "secondary")">@(banner.Status == 1 ? "Active" : "Hidden")</span></td>
+                        <td>@banner.Description</td>
+                        <td class="text-right">
+                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@banner.Id"><i class="fas fa-pen"></i> Edit</a>
+                            <form asp-action="Delete" asp-route-id="@banner.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this banner?');">
+                                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="5" class="text-center text-muted p-4">No banners yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

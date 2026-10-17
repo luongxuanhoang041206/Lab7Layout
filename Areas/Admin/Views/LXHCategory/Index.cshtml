@@ -1,0 +1,36 @@
+@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h2 class="card-title">Category list</h2>
+        <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Add category</a>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Name</th><th>Status</th><th>Created</th><th class="text-right">Actions</th></tr></thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td><span class="badge badge-@(category.Status == 1 ? "success" : "secondary")">@(category.Status == 1 ? "Active" : "Hidden")</span></td>
+                        <td>@category.CreatedDate.ToLocalTime().ToString("d")</td>
+                        <td class="text-right">
+                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@category.Id"><i class="fas fa-pen"></i> Edit</a>
+                            <form asp-action="Delete" asp-route-id="@category.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this category?');">
+                                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="4" class="text-center text-muted p-4">No categories yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

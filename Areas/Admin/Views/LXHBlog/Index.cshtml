@@ -1,0 +1,43 @@
+@model IEnumerable<Blog>
+@{
+    ViewData["Title"] = "Journal";
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h2 class="card-title">Journal posts</h2>
+        <a class="btn btn-primary btn-sm" asp-action="Create"><i class="fas fa-plus mr-1"></i> Add post</a>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Title</th><th>Status</th><th>Created</th><th>Description</th><th class="text-right">Actions</th></tr></thead>
+            <tbody>
+                @foreach (var blog in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(blog.Image))
+                            {
+                                <img class="admin-thumbnail mr-2" src="@blog.Image" alt="" />
+                            }
+                            @blog.Name
+                        </td>
+                        <td><span class="badge badge-@(blog.Status == 1 ? "success" : "secondary")">@(blog.Status == 1 ? "Active" : "Hidden")</span></td>
+                        <td>@blog.CreatedDate.ToLocalTime().ToString("d")</td>
+                        <td>@blog.Description</td>
+                        <td class="text-right">
+                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@blog.Id"><i class="fas fa-pen"></i> Edit</a>
+                            <form asp-action="Delete" asp-route-id="@blog.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this post?');">
+                                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="5" class="text-center text-muted p-4">No journal posts yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
